@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+url      = env("DATABASE_URL")
+ //url="postgres://default:27yfBILpMbvi@ep-sparkling-term-a4h2jc20.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+
+
+}
+model User {
+  id               Int       @id @default(autoincrement())
+  username         String    @unique
+  email            String    @unique
+  password         String
+  resetotp         String?
+  verifyotp        String?
+  company_existing String?
+  verified         String?
+  isAdmin          Boolean?  @default(false)
+  role             String?
+  companies        Company[] @relation("CompanyToUser")
+}
+
+model Company {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[] @relation("CompanyToUser")
+}
+
+model Employee {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  password    String
+  degree      String
+  experience  String
+  mobileNumber String
+  role     String
+  city        String
+  state       String
+  joiningDate DateTime @default(now())
+  address     String
+  isActive     Boolean @default(true)
+  
+}
+
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  degree      String
+  passoutYear Int
+  college     String
+  skills      String
+  experience  String
+  certificate String
+  city        String
+  state       String
+  joiningDate DateTime @default(now())
+  address     String
+}
+
+model Client {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  degree      String
+  passoutYear Int
+  college     String
+  skills      String
+  experience  String
+  certificate String
+  city        String
+  state       String
+  joiningDate DateTime @default(now())
+  address     String
+}
